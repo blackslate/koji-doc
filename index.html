@@ -1,0 +1,554 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style>
+  body {
+    background-color: #222;
+    color: #fff;
+    margin: 0 auto;
+    padding: 8px;
+    max-width: 800px;
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  figure {
+    text-align: center;
+  }
+  h1, h2 {
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid rgb(52, 52, 46);
+  }
+  h4 {
+    margin-top: 0;  
+  }
+  a {
+    color: rgb(53, 138, 235);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  aside {
+    border-left: solid 1em #000;
+    border-right: solid 1em #000;
+    background-color: #333;
+    padding: 0.5em 1em;
+    margin: 1em 0;
+  }
+  aside h4::before {
+    content: "✏  ";
+  }
+  code {
+    background: #444;   
+  }
+  pre {  
+    overflow-y: auto;
+  }
+  .custom {
+    font-style: italic;
+  }
+  pre.koji {
+    background-color:#000;
+    color:#fff;
+    padding: 0.5em;
+  }
+  .koji .comment {
+    color:#999;
+  }
+  .koji .custom {
+    color:#ffd;
+  }
+  pre.terminal {
+    background-color:#302;
+    color:#fff;
+    padding: 0.5em;
+  }
+  .npm {
+    background-color:#233;
+  }
+  .warn {
+    background-color:#ca0;
+    color:#000;
+  }
+  .wds {
+    color:#555;
+  }
+  .path {
+    font-weight:bold;
+    color:#79b;
+  }
+  .terminal .comment {
+    color:#968;
+  }
+  .terminal .custom {
+    color:#fdd;
+  }
+  .red {
+    color: #c00;
+  }
+  .green {
+    color: #090;
+  }
+  pre.editor {
+    background-color:#224;
+    color:#ff9;
+  }
+  .hilite {
+    background-color:#669;
+  }
+  .editor .comment {
+    color:#669;
+  }
+</style>
+
+</head>
+<body>
+<h1>Working Locally</h1>
+<p>Koji provides a feature-rich online project editor, but as a developer you are probably used to working with your own suite of development tools. In this tutorial, I will describe how to clone a Koji project template to your development machine, so that you can use it locally as the starting point for your own game.</p>
+<h2>Required Tools</h2>
+<p>In order to develop your Koji project locally, you will need four tools:</p>
+<ol>
+<li>The open source <strong>Git</strong> version control system. Koji stores each template and each remixed project as a separate Git repository. To work on a project locally, you will need to use Git to download a clone of your project to your local hard-drive. You can then make changes and use Git to push the changes back to the <code>origin</code> repository on the Koji servers.<br><br>
+This tutorial assumes that you already have <a href="https://git-scm.com/downloads">Git</a> installed on your computer, and that you are familiar with the basic Git commands. If you need to install Git on your computer, please do that first. You can find all the necessary information <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">here</a>.
+<li>
+<p>The open source <strong>Node.js</strong> server environment. Koji uses Node.js and many add-on packages to deliver your web app to your users' browsers. You will need to <a href="https://nodejs.org/en/download/">install Node.js</a> and its associated Node Package Manager (NPM) in order to run a Node server on your development computer.</p>
+</li>
+<li>
+<p>A Terminal application. You will be typing commands that use `git` and `npm` to set up your development environment. Depending on your operating system, the application you use will be different.
+Here are some suggestions:</p>
+<ul>
+  <li>
+<a href="https://blog.teamtreehouse.com/introduction-to-the-mac-os-x-command-line">Terminal</a> on macOS</li>
+  <li>
+<a href="https://msysgit.github.io">GitBash</a> on Windows</li>
+  <li>
+<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">Linux Terminal</a> on Linux</li>
+</ul></p>
+</li>
+<li>
+<p>A text editor. This is where you will edit your code, and save it as plain-text files. A text editor that is designed for writing code will help you in many ways. Computers do exactly what you tell them to do, even if you tell them the wrong things. A dedicated text editor will make it easier for you to find the right words to use, and to find where you have used the wrong words or the wrong structure. You can find a list of recommended text editors <a href="https://kinsta.com/blog/best-text-editors/">here</a>, including several which are both excellent and free.</p>
+</li>
+</ol>
+<h2>Choosing a template for your project</h2>
+<p>You can find many game templates on the <a href="https://withkoji.com/tag/scaffolds-(for-developers)?sort=remixes">Scaffolds (For Developers)</a> page. The instructions you find below should work well with any of them. For this tutorial, I am going to use Svarog's <a href="https://withkoji.com/~Svarog1389/element-match">Element Match</a> template, because it features in the <a href="https://www.youtube.com/watch?v=R7FAL2IV0sk&amp;feature=youtu.be">How To</a> video tutorial, and it illustrates a completed game with code that runs both on the backend and on the frontend.</p>
+<h2>Starting to Remix</h2>
+<p>Visit the <a href="https://withkoji.com/~Svarog1389/element-match">Element Match</a> project and click on the <code>∞ Remix</code> button. Koji's Online Editor will open.</p>
+<aside>
+<h4>Signing in</h4>
+<p>If you are not signed in, you will be asked to sign in. If you are not yet registered, you will be asked to create an account.</p>
+</aside>
+<aside>
+<h4>Note</h4>
+<p>For the screen shots, I have used the energy-friendly Dark Koji theme. You can change the theme by clicking on your avatar at the top right, then on the cog icon, on the radio button for the theme you want, and finally on the Save button.</p>
+<figure>
+  <img alt="Setting the Dark Koji theme" src="img/theme.png" title="Setting the Dark Koji theme">
+</figure>
+<p>I use "KojiCoder" as the username for the project, but you should use the username you gave when you registered with Koji.</p>
+</aside>
+<h2>Editor Overview</h2>
+<p>The Online Editor is divided into 4 sections:</p>
+<ol>
+<li>A column of Links on the left</li>
+<li>An editing pane which allows multiple open tabs in the center</li>
+<li>A Preview pane on the right</li>
+<li>A collapsible Terminal pane, with multiple tabs, at the bottom</li>
+</ol>
+<p><img alt="The Koji Online Editor" src="img/editor.png" title="The Koji Online Editor"></p>
+<p>At the top of the window, you will see an editable field with the default name of your new project: <code>Element Match (remix)</code>. This name will be used to create the URL to your game, so it is a good idea to change it to something that you will be proud of now.</p>
+<h2>Cloning the Git Repository</h2>
+<p>When you click on Remix (for any project), Koji creates a new clone of the project's Git repository just for you. This new repository will have a unique identifier string. If you clone the same project twice, you will get a different identifier string each time. The Koji repositories are stored at https://projects.koji-cdn.com/.</p>
+<p>In order to clone the Koji repository locally, you will need three strings:</p>
+<ul>
+<li>The URL of the repository on https://projects.koji-cdn.com/</li>
+<li>The Username that you created when you registered with Koji</li>
+<li>An Access Token, which you will need to generate and store securely.</li>
+</ul>
+<p>You will need to use the repository URL only once, you should know your Username by heart, but the Access Token is a 32-character randomly-generated hexadecimal number, and you will need to make a note of it in a safe place.</p>
+<h3>Repository URL</h3>
+<p>To find the URL of the Koji repository, open your project page and in the bottom left corner of the page, click on the disclose triangle beside the Settings icon to see a link to your Repository settings. Click on that to open the Repository Settings pane.</p>
+<p><img alt="Open the Repository Settings" src="img/repository.png" title="Open the Repository Settings"></p>
+<p>The Repository Settings pane will show links to two repositories. The first is called Remote Repository, and this is your personal repository. (The second, called the Upstream Repository, is the one your project was cloned from. You can ignore this... or create a fork of it if you want to suggest changes and make Pull Requests for it, so that other users of this template can benefit.)</p>
+<p>Copy the Remote Repository URL, open a Terminal window, navigate to the directory where you want to save your project and type
+<code class="bash">git clone</code> followed by a space, and then paste the repository URL that you just copied. Press the Enter key. Your Terminal window might now look something like this:</p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji$</span> <b>git clone https://projects.koji-cdn.com/<span class="custom">a70f8329-e89e-48b0-8d85-7658c1542b9f.git</span></b>
+Cloning into 'a70f8329-e89e-48b0-8d85-7658c1542b9f'...
+Username for 'https://projects.koji-cdn.com':
+</pre>
+
+<p>The Terminal is asking for your Username, and after that it will ask for a Password. This password is <strong>not</strong> the same as the password you use to log in to Koji. It is a strong machine-generated access key, which only you should ever know about.</p>
+<h3>Access Key</h3>
+<p>To generate an Access Key, you need to visit the <a href="https://withkoji.com/settings/access-keys">Access key</a> pane in your Settings page. There are two ways to find your Settings page:</p>
+<ol>
+<li>From your <a href="https://withkoji.com/">Home page</a>, press the Settings button at the bottom left</li>
+<li>From any page, press your avatar in the top right corner, and then on the Cog icon, as shown in the screenshot below.</li>
+</ol>
+<p>When you are on your Settings page, press the <a href="https://withkoji.com/settings/access-keys">Access keys</a> link in the column on the left.</p>
+<p><img alt="Open the Access Keys settings" src="img/AccessToAccess.png" title="Open the Access Keys settings"></p>
+<p>On the Access Key page, click on the Generate New Token link at the top right.</p>
+<p><img alt="Generate New Token" src="img/GenerateToken.png" title="Generate a new token"></p>
+<p>An overlay window will open containing a 128-bit number in hexadecimal form. Copy this number and keep it somewhere safe, where only you can find it easily. You will need to use it each time you clone, pull or push to the <code>origin</code> repository.</p>
+<figure>
+<img alt="Save your Access Key" src="img/AccessKey.png" title="Save your Access Key">
+</figure>
+<p>After you close the overlay window, this number will be known only as <code>Token 1</code>, and you will have no way to retrieve it from the Koji site again. You can, however, revoke your token and generate a new one if you have forgotten it, or if you believe that someone unauthorized has discovered it.</p>
+<h3>Username</h3>
+<p>Your username for the Koji Git repository is the same as the name you chose when you registered with Koji. For reference, it is shown at the bottom of the paragraph above your list of tokens.</p>
+<h3>Authorizing Git to Clone the Repository</h3>
+<p>In the Terminal window, type in your Username, then press the Enter key. When asked for the password, paste in the 32-character hex string that you copied from the Access Key overlay window. (Remember than in some Terminal windows, <code>Ctrl-C</code> means "Cancel", so you may have to use <code>Shift-Ctrl-C</code> to paste). The password that you pasted will not be shown. Press the Enter key to start the cloning process. </p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji$</span> git clone https://projects.koji-cdn.com/a70f8329-e89e-48b0-8d85-7658c1542b9f.git
+Cloning into 'a70f8329-e89e-48b0-8d85-7658c1542b9f'...
+<b>Username for 'https://projects.koji-cdn.com': <span class="custom">KojiCoder</span>
+Password for 'https://KojiCoder@projects.koji-cdn.com': </b>
+remote: Counting objects: 15941, done.
+remote: Compressing objects: 100% (6156/6156), done.
+remote: Total 15941 (delta 9517), reused 15941 (delta 9517)
+Receiving objects: 100% (15941/15941), 9.35 MiB | 754.00 KiB/s, done.
+Resolving deltas: 100% (9517/9517), done.
+Checking connectivity... done.
+</pre>
+
+<h2>What You Get</h2>
+<p>You should now have a new directory with a beautifully arcane name like <code>a70f8329-e89e-48b0-8d85-7658c1542b9f</code>. For the rest of this tutorial, I'm going to imagine that you renamed it to <code>MyKojiGame</code>:</p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji$</span> <b>mv <span class="custom">a70f8329-e89e-48b0-8d85-7658c1542b9f</span>/ MyKojiGame</b>
+</pre>
+
+<p>Now you can <code>cd</code> into your <code>MyKojiGame</code> directory, and look at what has been cloned in:</p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji$</span> <b>cd MyKojiGame/</b>
+<span class="path">~/Repos/Koji$</span> <b>ls -al</b>
+total 40
+drwxrwxr-x  6 kojicoder dev 4096 nov  5 16:38 .
+drwxrwxr-x 11 kojicoder dev 4096 nov  5 17:00 ..
+drwxrwxr-x  3 kojicoder dev 4096 nov  5 16:38 backend
+-rw-rw-r--  1 kojicoder dev  516 nov  5 16:38 Dockerfile
+drwxrwxr-x  5 kojicoder dev 4096 nov  5 16:38 frontend
+drwxrwxr-x  8 kojicoder dev 4096 nov  5 16:38 .git
+-rw-rw-r--  1 kojicoder dev  186 nov  5 16:38 .gitignore
+drwxrwxr-x  6 kojicoder dev 4096 nov  5 16:38 .koji
+-rw-rw-r--  1 kojicoder dev   27 nov  5 16:38 package-lock.json
+-rw-rw-r--  1 kojicoder dev  797 nov  5 16:38 README.md
+</pre>
+
+<h2>Installing the Dependencies</h2>
+<p>The clone process installed all the project-specific files, but it only contains information about the servers and other dependencies that you will need to launch the game locally, but not the dependency files themselves. Before you can test the game on your development machine, you will need to install two sets of Node modules, one set to run the frontend and another set to run the backend.</p>
+<p>To deal with the backend, <code>cd</code> to the <code>backend</code> director and run <code>npm install</code>. You'll have to wait for a minute or two while the Terminal window shows you what's happening.</p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji/MyKojiGame$</span> <b>cd backend</b>
+<span class="path">~/Repos/Koji/MyKojiGame/backend$</span> <b>npm install</b>
+
+> core-js@2.6.9 postinstall /home/kojicoder/Repos/Koji/MyKojiGame/backend/node_modules/core-js
+> node scripts/postinstall || echo "ignore"
+
+<span class="npm">npm</span> <span class="warn">WARN</span> koji-project-backend@1.0.0 No description
+<span class="npm">npm</span> <span class="warn">WARN</span> koji-project-backend@1.0.0 No repository field.
+<span class="comment">... (more warnings and comments not shown) ...</span>
+
+added 477 packages from 234 contributors and audited 8550 packages in 6.678s
+found 0 vulnerabilities
+</pre>
+
+<p>Dealing with the frontend is similar: <code>cd</code> to the <code>frontend</code> director and run <code>npm install</code>:</p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji/MyKojiGame$</span> <b>cd ../frontend/</b>
+<span class="path">~/Repos/Koji/MyKojiGame/frontend$</span> <b>npm install</b>
+
+> koji-tools@0.5.3 postinstall /home/kojicoder/Repos/Koji/MyKojiGame/frontend/node_modules/koji-tools
+> node ./cmd.js postinstall
+
+new config
+
+> preact@8.5.1 postinstall /home/kojicoder/Repos/Koji/MyKojiGame/frontend/node_modules/preact
+
+> webpack-cli@3.3.1 postinstall /home/blackslate/Repos/Koji/MyKojiGame/frontend/node_modules/webpack-cli
+> node ./bin/opencollective.js
+
+<span class="npm">npm</span> <span class="warn">WARN</span> meta-project@1.0.0 No repository field.
+<span class="npm">npm</span> <span class="warn">WARN</span> meta-project@1.0.0 No license field.
+<span class="comment">... (more warnings and comments not shown) ...</span>
+
+added 996 packages from 358 contributors and audited 12188 packages in 14.023s
+found 345 vulnerabilities (1 low, 344 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+</pre>
+
+<aside>
+<h4>Optional Audit</h4>
+<p>If you want to update all the Node modules to their most recent stable release, you can run <code>npm audit fix</code>.</p>
+<pre class="terminal">
+<span class="path">~/Repos/Koji/MyKojiGame/frontend$</span> <b>npm audit fix</b>
+<span class="npm">npm</span> <span class="warn">WARN</span> meta-project@1.0.0 No repository field.
+<span class="npm">npm</span> <span class="warn">WARN</span> meta-project@1.0.0 No license field.
+<span class="comment">... (more warnings and comments not shown) ...</span>
+
+removed 2 packages and updated 4 packages in 7.468s
+fixed 344 of 345 vulnerabilities in 12188 scanned packages
+  1 vulnerability required manual review and could not be updated
+</pre>
+
+<p>This will alter the <code>package-lock.json</code> file, so that it can request the identical file versions if you run <code>npm install</code> on a different computer.</p>
+</aside>
+<h2>Launching Your Project Locally</h2>
+<p>The Element Match game features both a frontend – so that you can play the game in your browser – and a backend – to access a database where the Leaderboard scores are stored.</p>
+<aside>
+<h4>Games With No Leaderboard</h4>
+<p>If you chose to develop a game that does <strong>not</strong> require a leaderboard, then launching your project locally is very simple. Simply <code>cd</code> to the <code>frontend</code> directory and run <code>npm start</code>:</p>
+<pre class="terminal">
+<span class="path">$</span> <b>cd ../frontend/</b>
+<span class="path">$</span> <b>npm start</b>
+
+<span class="comment">... (some output not shown) ...</span>
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: Project is running at <span class="path"><a href="http://0.0.0.0:8080">http://0.0.0.0:8080/</a></span>
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: webpack output is served from <span class="path">/</span>
+<span class="comment">... (more output not shown) ...</span>
+
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: Compiled successfully
+</pre>
+
+<p>You should now be able to visit <a href="http://0.0.0.0:8080">http://0.0.0.0:8080</a> in your browser to test your project. Note that <a href="http://localhost:8080/">http://localhost:8080/</a> and <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a> might also work.</p>
+</aside>
+<h3>Environment variables</h3>
+<p>If you want to run the Leaderboard, the procedure for launching your game is more complex. You will need to inform the frontend which URL to use to connect to the backend, and you will need to give the backend a couple of details concerning your project. And you will have to launch both the frontend and the backend servers on your local machine, using separate Terminal windows for each.</p>
+<p>The Koji system reads in these items of information from <a href="https://en.wikipedia.org/wiki/Environment_variable">environment variables</a>. This ensures the data that is specific to deployment is kept separate from the code and configuration that is specific to your app.</p>
+<p>To see what environment variables Koji uses to deploy your project, go to the Online Editor for your project, open a new Terminal tab at the foot the page and type:</p>
+<pre><code>env | grep 'KOJI_'
+</code></pre>
+
+<p>Below is the output that I get, edited to show only the relevant items. The values that you will see in your output will be unique to your project.</p>
+<pre class="koji">
+root@ip-172-31-15-24:/usr/src/app# <b>env | grep 'KOJI_'</b>
+<span class="comment">...</span>
+KOJI_SERVICE_URL_backend=<span class="custom">https://3333-48006672-6558-4f69-a40c-e4142c15067f.koji-staging.com</span>
+
+<span class="comment">... (some variables not shown) ...</span>
+
+<b>KOJI_PROJECT_ID=<span class="custom">a70f8329-e89e-48b0-8d85-7658c1542b9f</span>
+KOJI_PROJECT_TOKEN=<span class="custom">6679483a-dab8-4e89-9a83-6b56b53b4241</span></b>
+<span class="comment">...</span>
+</pre>
+
+<h3>Launching the frontend</h3>
+<p>The backend is configured by default to run on port <code>3333</code>, while the frontend is configured to run at <a href="http://0.0.0.0:8080">http://0.0.0.0:8080</a>. When you launch the frontend, you need to tell it which URL it needs to use to access the backend. On Mac OS and other Unix-based operating systems, you can use the <code>export</code> command to do this.</p>
+<p>Navigate to the <code>frontend</code> directory for your project, and then set the <code>KOJI_SERVICE_URL_backend</code> environment variable just before you call <code>npm start</code>. Your Terminal window might look something like this:</p>
+<pre class="terminal">
+<span class="path">$</span> <b>cd ..frontend/</b>
+<span class="path">$</span> <b>export KOJI_SERVICE_URL_backend=http://0.0.0.0:3333 && npm start</b>
+
+<span class="comment">... (some output not shown) ...</span>
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: Project is running at <span class="path">http://0.0.0.0:8080/</span>
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: webpack output is served from <span class="path">/</span>
+<span class="comment">... (more output not shown) ...</span>
+
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: Compiled successfully
+</pre>
+
+<h3>Launching the backend</h3>
+<p>The backend needs to have both a <code>KOJI_PROJECT_ID</code> and a <code>KOJI_PROJECT_TOKEN</code> in order to access the Leaderboard database. You can get the value of these variables from the Terminal tab in the Online Editor for your project. Type...</p>
+<p><code>env | grep 'KOJI_PROJECT_'</code></p>
+<p>... and copy the output that you get.</p>
+<p><strong>Open a new Terminal window</strong>, and navigate to the <code>backend</code> directory of your project. Now set these two variables just before you call <code>npm run start-dev</code>. Your Terminal window might look something like this:</p>
+<pre class="terminal">
+<span class="path">$</span> <b>cd ../backend/</b>
+<span class="path">$</span> <b>export KOJI_PROJECT_ID=<span class="custom">a70f8329-e89e-48b0-8d85-7658c1542b9f</span> && export
+KOJI_PROJECT_TOKEN=<span class="custom">6679483a-dab8-4e89-9a83-6b56b53b4241</span> && npm run start-dev</b>
+
+> koji-project-backend@1.0.0 start-dev /home/kojicoder/Repos/Koji/Element Match/39ff/backend
+> NODE_ENV=development babel-watch -L --watch ../.koji/ src/server.js
+
+[koji] backend started
+</pre>
+
+<p>Remember to use your own values in the place of the values shown in italics above.</p>
+<h2>Testing Your Local Deployment</h2>
+<p>Check that the frontend reported <code>Compiled successfully</code> and that the backend reported <code>backend started</code>,. If you see errors, make sure that you have no other apps already running on port <code>8080</code> or port <code>3333</code>.</p>
+<p>Now, in your browser, visit <a href="http:0.0.0.0:8080">http:0.0.0.0:8080</a>. You should see the Element Match game running.</p>
+<p>Click on the Leaderboard button, to check that it is working. If you haven't played the game yet, there will be no scores to show, but you will still see the title "Top Scores" and a Close link that returns you to the Welcome screen.</p>
+<p>Click on Start Matching, and start scoring points. When the game is over, you will be invited to submit your user name. This time, the Leaderboard should show your name and your score.</p>
+<h2>Smoke Test</h2>
+<p>Now you have a template project running on your local computer, so you can use your own favourite text editor to modify it and add new features. You will also be able to test that these new features work on your development machine. However, in order to share your project with the world, you need to get your updated project running on the Koji servers.</p>
+<p>Before you get deep into development locally, it would be a good idea to make just one minor change, push it back to the Koji servers, and check that the change is visible to the world.</p>
+<h3>Changing a Visual Customization Control</h3>
+<p>The simplest change that will be the most immediately obvious is the title of the game. To change this in the Online Editor, the easiest way is to click on the Customization &gt; Game Settings link in the column on the left. This will open the Game Settings editor in Visual Mode. This is the way the non-coding <em>makers</em> will customize your game when you have finished developing it.</p>
+<p>However, Visual Mode is not available when you are developing your project locally. You will need to open the file at <code>.koji/customization/string.json</code> in your favorite text editor, and make the change there:</p>
+<pre class="editor">
+
+{
+  "strings": {
+    "fontFamily": "https://fonts.googleapis.com/css?family=Lilita+One",
+    "title": "<span class="hilite">CUSTOM TITLE</span>",
+    "instructions1": "Swipe the Elements to move them",
+    <span class="comment">... (more json code here) ...</span>
+
+</pre>
+
+<p>Save your file with your new title, then in your browser at <a href="http://0.0.0.0:8080">http://0.0.0.0:8080</a>, check that the splash screen now shows the new title.</p>
+<h2>From Local to Live</h2>
+<p>Making this change visible on Koji server is a four-step process.</p>
+<ol>
+<li>Tell Git to <code>commit</code> your changes locally</li>
+<li>Tell Git to <code>push</code> the committed changes to the remote Koji repository</li>
+<li>Tell the instance of Git in Koji's Online Editor to <code>pull</code> the commited changes from the Koji repository</li>
+<li>Tell the Koji Editor to Publish the updated version of your game.</li>
+</ol>
+<h3>Tracking Changes with Git</h3>
+<p>Each time you make a change to one of the files in your project, the Git version control system will note that the file has changed. You can use the command <code>git status</code> to discover which files have changed.</p>
+<aside>
+<h4>Note</h4>
+<p>At the root of your project, there is a file called <code>.gitignore</code>. (You might not see it because, by default, files whose names begin with a dot are hidden by your operating system.)</p>
+<p>The <code>.gitignore</code> file tells Git which files and folders to ignore. In particular, this file tells Git to ignore any changes made to files in the <code>node_modules</code> folders. These are the folders that were created when you ran <code>npm install</code> from within the <code>frontend/</code> and <code>backend/</code> folders. However, if you make a change to any file that is not an a <code>node_modules</code> folder, Git will be aware of your changes.</p>
+</aside>
+<p>When you are ready to test your changes on the Koji server, open a Terminal window into the root directory of your project (<code>MyKojiGame/</code>, in my case) and run the following commands:</p>
+<pre class="terminal">
+<span class="path">$</span> <b>git add .                      </b><span class="comment"> # tells Git to process all the documents that you have changed</span>
+<span class="path">$</span> <b>git commit -m "<span class="custom">(your comments)</span>"</b> <span class="comment"># tells Git to create an updated version of your project</span>
+</pre>
+
+<p>Note that you should replace <code>(your comments)</code> with a brief description of the changes that you have made, so that you will be able to remember what features you were working on.</p>
+<aside><h4>Understanding Git <code>commit</code></h4>
+You can find a more complete description of the commands <code>git add</code> and <code>git commit</code> commands <a href="https://www.atlassian.com/git/tutorials/saving-changes">here</a>.
+</aside>
+<h3>Pushing Changes to the Koji Repository</h3>
+<p>After the <code>commit</code> process is successfully completed, you can use Git to upload the changes you have made to the repository stored on the Koji servers. To do this, you need to use the command <code>git push origin master</code>. You will be asked for your Koji username, and for your password. Your password is the Access Key that you created earlier and stored somewhere safely.</p>
+<pre class="terminal">
+<span class="path">$</span> <b>git push origin master</b> <span class="comment"># tells Git to upload your new version to the Koji repository</span>
+Counting objects: 21, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (21/21), done.
+Writing objects: 100% (21/21), 84.53 KiB | 0 bytes/s, done.
+Total 21 (delta 15), reused 0 (delta 0)
+<b>Username for 'https://projects.koji-cdn.com': <span class="custom">KojiCoder</span>
+Password for 'https://blackslate@projects.koji-cdn.com': </b><span class="comment">Paste your 32-character Access Key here</span>
+To https://projects.koji-cdn.com/a70f8329-e89e-48b0-8d85-7658c1542b9f.git
+   a88036c..ea6bda1  master -> master
+</pre>
+
+<h2>Testing Your Updated App on the Koji Server</h2>
+<p>If you test your game in the Online Editor on the Koji Server now, you will not see any changes. This is because the Online Editor uses its own repository, which is different from the <code>origin</code> repository that you have just pushed your changes to. In order to update the repository used by the Online Editor, you will need to <code>pull</code> them from the <code>origin</code> repository.</p>
+<p>To do this, you can use the command <code>git pull origin master</code>.</p>
+<pre class="koji">
+root@ip-172-31-12-226:/usr/src/app# <b>git pull origin master</b>
+remote: Counting objects: 21, done.
+remote: Compressing objects: 100% (21/21), done.
+remote: Total 21 (delta 15), reused 0 (delta 0)
+Unpacking objects: 100% (21/21), done.
+From https://projects.koji-cdn.com/a70f8329-e89e-48b0-8d85-7658c1542b9f
+ * branch            master     -> FETCH_HEAD
+   a88036c..ea6bda1  master     -> origin/master
+Updating a88036c..ea6bda1
+Fast-forward
+ backend/package-lock.json        | 41 <span class="green">++++++++++++++++++++++++++++++</span><span class="red">-----------</span>
+ frontend/package-lock.json       | 82 <span class="green">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="red">---------------------</span>
+ .koji/customization/strings.json |  2 <span class="green">+</span><span class="red">-</span>
+ 3 files changed, 92 insertions(+), 33 deletions(-)
+</pre>
+
+<h3>Previewing Your Modified App</h3>
+<p>The code in the Online Editor should now be identical to the code in your local repository. In the Online Editor, in the Preview pane on the right, you should now see your custom title, corresponding to the change you made in <code>.koji/customization/strings.json</code>.</p>
+<h3>Updating the Node Modules</h3>
+<p>Your Git repository does not store any of the files in the <code>node_modules</code> directory, and indeed, the Online Editor does not even display this folder. However, if you ran <code>npm audit fix</code> earlier, the <code>package.json</code> and <code><a href="https://medium.com/coinmonks/everything-you-wanted-to-know-about-package-lock-json-b81911aa8ab8">package-lock.json</a></code> files in both the <code>backend</code> and the <code>frontend</code> directories may have changed, so you do at least have the information that you need to update your node modules to their most recent version. To benefit from this, you'll need to run <code>npm install</code> for both the <code>frontend</code> and the <code>backend</code> in the Terminal pane of the Online Editor.</p>
+<ol>
+<li>Click on the <code>frontend</code> tab of the Terminal pane</li>
+<li>Press <code>Ctrl-C</code> on your keyboard to halt the frontend server</li>
+<li>Run <code>npm install</code></li>
+<li>Wait for the newest version of each module to be installed, then run <code>npm start</code></li>
+</ol>
+<pre class="koji"><b>^C</b>
+root@ip-172-31-15-216:/usr/src/app/frontend# <b>npm install</b>
+<span class="npm">npm</span> <span class="warn">WARN</span> meta-project@1.0.0 No repository field.
+<span class="npm">npm</span> <span class="warn">WARN</span> meta-project@1.0.0 No license field.
+<span class="comment">... (more warnings and comments not shown) ...</span>
+
+audited 12334 packages in 5.192s
+found 1 low severity vulnerability
+  run `npm audit fix` to fix them, or `npm audit` for details
+root@ip-172-31-15-216:/usr/src/app/frontend# <b>npm start</b>
+<span class="comment">... (more output not shown) ...</span>
+
+<span class="path">ℹ</span> <span class="wds">｢wds｣</span>: Compiled successfully
+</pre>
+<ol start="5">
+<li>Click on the <code>backend</code> tab of the Terminal pane</li>
+    <li>Press <code>Ctrl-C</code> on your keyboard to halt the backend server</li>
+<li>Run <code>npm install</code></li>
+<li>Wait for any new modules to be installed, then run <code>npm run start-dev</code></li>
+</ol>
+<pre class="koji"><b>^C</b>
+root@ip-172-31-15-216:/usr/src/app/backend# <b>npm install</b>
+<span class="npm">npm</span> <span class="warn">WARN</span> koji-project-backend@1.0.0 No description
+<span class="npm">npm</span> <span class="warn">WARN</span> koji-project-backend@1.0.0 No repository field.
+<span class="comment">... (more warnings and comments not shown) ...</span>
+
+audited 8550 packages in 2.729s
+found 0 vulnerabilities
+
+root@ip-172-31-15-216:/usr/src/app/backend# <b>npm run start-dev</b>
+<span class="comment">... (more output not shown) ...</span>
+    
+[koji] backend started
+</pre>
+
+<h3>Publishing Your New Version</h3>
+<p>To complete the first iteration cycle of your new project, you now need to publish it, so that you can test how it behaves when served live from the Koji servers. You have only just started development, so you probably don't want its existence broadcast to the whole of the World Wide Web quite yet. For now, being able to test your game live yourself, or with feedback from a small hand-picked group, is good enough. Fortunately, Koji gives you a way to publish your project <em>unlisted</em>. This means that only people who obtain the direct URL will be able to visit your published app.</p>
+<p>In the Online Editor:</p>
+<ol>
+<li>Click on the Publish Now link near the top of the left-hand column.</li>
+<li>Open the Discovery Settings (Optional) disclose triangle, near the middle of the page, to show more options</li>
+<li>Ensure that the Unlisted checkbox is selected</li>
+<li>Make any other changes that you want in the General Information Zone</li>
+<li>Click on Publish New Version.</li>
+</ol>
+<figure>
+  <img alt="Publishing an Unlisted project" src="img/Publish.png" title="Publishing an Unlisted project">
+</figure>
+<p>You will have to wait a few moments while your project is published, then you will be able to click on the Open Published App link near the top of the left-hand column, to test your game live.</p>
+<figure>
+  <img alt="Publishing an Unlisted project" src="img/live.png" title="Publishing an Unlisted project">
+</figure>
+<aside>
+<h4>Getting Listed</h4>
+<p>By default, from now on, each time you publish your project, it will be published <em>unlisted</em>. When your project is ready for the world to see, don't forget to remove this setting.</p>
+</aside>
+  
+<aside>
+<h4>Tip: Using a Separate Koji Project to Edit VCC Files Online</h4>
+<p>The Online Editor provides two features that are not available in your local development environment:</p>
+<ul>
+<li>A Visual Mode to edit the JSON files stored at <code>.koji/customization/</code></li>
+<li>The ability to generate custom URLs for customizable assets</li>
+</ul>
+<p>If you edit the JSON files stored at <code>.koji/customization/</code> in your local development environment, you risk creating valid JSON that nonetheless fails to conform to the expectations of the Online Editor. In particular, the <code>"@@editor"</code> array needs to contain specific property-value pairs and precisely constructed objects, otherwise the Visual Mode will fail to work, and makers will not be able to customize your game correctly. In order to ensure that your changes to the <code>"@@editor"</code> array are valid, it makes sense to work in the Online Editor, and to toggle back and forth between the Visual and Code modes, checking as you go that the Visual Mode works the way you expect it to.</p>
+<p>Another reason for using the VCC editor online in Visual Mode is that you can upload images and audio files, or provide a direct URL to where these files can be found online, and the Koji system will copy them to the Koji CDN servers and insert the appropriate URL into the associated JSON file for you. Working in your local development environment, there is no way for you to transfer files to the Koji servers and to obtain their URLs.</p>
+<p>But there is a down side to this. If you edited these customization JSON files in the Online Editor or used the Online Editor in Visual Mode to link to different assets, then you would need to manually <code>push</code> the changes to Koji's <code>origin</code> repository and then <code>pull</code> them into your local development environment. And if you had also made local changes since your last local commit, this might result in conflicts between the Online Editor's repository and your local Git repository.</p>
+<p>In other words, in either of these two cases, editing the JSON files stored at <code>.koji/customization/</code> could lead to problems. Editing in the Online Editor could lead to one kind of problem, and editing locally could lead to another.</p>
+<p>Fortunately, there is a simple solution:</p>
+<ol>
+<li>Create a separate Koji project <em>specifically for editing VCC JSON files, and nothing else</em></li>
+<li>For each of the JSON files stored in the <code>.koji/customization/</code> folder of this separate project, edit the `"@@editor"` array until the Visual Mode works the way you want it</li>
+<li>Use the customized Visual Mode in this separate project to set the VCC values that you want in your main project</li>
+<li>When you have all the customized values you need in the Online Editor, switch to Code Mode and copy the entire JSON content</li>
+<li>In your local development environment, paste this tried and tested VCC code into the appropriate JSON file</li>
+<li>Commit your changes locally, push to the Koji <code>origin</code> repository, and pull the changes into the the Online Editor of your main project.</li>
+</ol>
+<p>This way, you can be sure your modified code always flows only in one direction: <em>from</em> your local development environment <em>to</em> the online Koji environment.</p>
+<p>The separate Koji project that you use for editing and testing the VCC JSON files can be reduced to its bare bones, if you want. You can delete all the frontend and backend code, and retain just the <code>.koji</code> directory and its contents. You can use the same <code>.koji</code> directory to store all the VCC JSON files for all your projects. It's just a container that lets you take advantage of the online-only Visual Mode.</p>
+</aside>
+<h2>Conclusion</h2>
+<p>This tutorial has taken you on a round trip from the Koji Online Editor to your local development environment and back again. You have seen changes that you made locally served live from the Koji servers.</p>
+<p>As you develop your project, you will cycle through many such loops, adding and refining features and testing that everything works just as beautifully when delivered from the Koji servers as from the comfort of your own development machine.</p>
+<p>In particular, you have seen how to:</p>
+<ul>
+<li>Find the required tools: Git, Node.js, a Terminal application and a text editor</li>
+<li>Clone the Git repository for your project onto your local machine</li>
+<li>Find the username and password that allows you to interact with Koji's <code>origin</code> repository</li>
+<li>Install the Node modules that are needed to run a server on your local machine</li>
+<li>Make and test changes locally</li>
+<li>Push your changes to the <code>origin</code> repository, and then pull them into the Online Editor</li>
+<li>Publish your changes to the Koji server</li>
+<li>Test that your game behaves the same live on a Koji server as it does locally</li>
+<li>Take full advantage of the Visual Mode for the JSON customization files, so that makers will have an easy job of making their own versions of your game.</li>
+</ul>
+<p>You're now ready to start developing your Koji game in earnest, in the development environment where you feel most comfortable. Let's see your creativity shine!  </p>
+</body>
+</html>
